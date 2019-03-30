@@ -1,0 +1,33 @@
+doctype html
+html
+  head
+    title
+      | GraphIDE
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    nav.navbar.navbar-expand-lg.navbar-dark style="background-color: #44007e;"
+      a.navbar-brand href="#"  GraphEditor
+      button.navbar-toggler aria-controls="navbarSupportedContent" aria-expanded="false" aria-label=("Toggle navigation") data-target="#navbarSupportedContent" data-toggle="collapse" type="button" 
+        span.navbar-toggler-icon
+      #navbarSupportedContent.collapse.navbar-collapse
+        ul.navbar-nav.mr-auto
+          li.nav-item.active
+            a.nav-link href="#" 
+              | New graph
+              span.sr-only (current)
+          li.nav-item
+            a.nav-link href="#"  Save
+          li.nav-item
+            a.nav-link href="#"  Save all
+        .dropdown.ml-md-auto
+          a#navbarDropdown.nav-link.link-active.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button" style="color:white;" 
+            | Create element
+          .dropdown-menu aria-labelledby="navbarDropdown" 
+            a.dropdown-item href="#"  Node
+            a.dropdown-item href="#"  Oriented arc
+            a.dropdown-item href="#"  Not oriented arc
+      
+    = yield
