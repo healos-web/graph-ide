@@ -58,6 +58,7 @@ group :development do
   gem "better_errors"
   gem "binding_of_caller"
   gem 'webpacker', '~> 4.x'
+  gem 'responders', '~> 2.0'
 end
 
 group :test do

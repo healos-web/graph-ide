@@ -1,0 +1,9 @@
+ul.nav.flex-column
+  li.nav-item
+    = link_to image_tag('add_node_icon.png', size: '50x50', alt: 'Add new node'), graph_nodes(@graph.id), remote: true
+  li.nav-item
+    a.nav-link href="#"  Link
+  li.nav-item
+    a.nav-link href="#"  Link
+  li.nav-item
+    a.nav-link.disabled aria-disabled="true" href="#" tabindex="-1"  Disabled

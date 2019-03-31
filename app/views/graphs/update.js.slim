@@ -1,0 +1,6 @@
+| $(function(){
+  $('#renameGraph#{@graph.id}Modal').modal('hide');
+  var newName = $("#renameGraph#{@graph.id}Modal #graph_name").val();
+  $("#graph-#{@graph.id} a[role='tab']").text(newName);
+| }); 
+

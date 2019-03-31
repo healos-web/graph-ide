@@ -1,0 +1,6 @@
+| $('#graphs').append('
+= j render template: 'graphs/create.html.slim'
+| ');
+| $('#graph-#{@graph.id}').dblclick(function() {
+    $('#renameGraph#{@graph.id}Modal').modal('show');
+| });

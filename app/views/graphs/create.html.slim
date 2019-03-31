@@ -1,0 +1,5 @@
+li.nav-item.form.row.ml-0.mr-0 id="graph-#{@graph.id}"
+    = render partial: 'rename_graph_modal'
+    a.nav-link.active[data-toggle="tab" title="Double click to change name" href="##{@graph.id}" role="tab" aria-selected="true"]
+      | #{@graph.name}
+    = link_to "✕", graph_path(@graph.id), class:"badge badge-danger cross-delete-text", title:"Delete graph", data: { confirm: "Are you sure?" }, method: :delete, remote: :true

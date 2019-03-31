@@ -5,7 +5,7 @@ html
       | GraphIDE
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag    'application', 'graphs', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   body
     nav.navbar.navbar-expand-lg.navbar-dark style="background-color: #44007e;"
@@ -15,11 +15,13 @@ html
       #navbarSupportedContent.collapse.navbar-collapse
         ul.navbar-nav.mr-auto
           li.nav-item.active
-            a.nav-link href="#" 
-              | New graph
+              = link_to "New graph", graphs_path, class:"nav-link active", method: :post, remote: :true
               span.sr-only (current)
+          li.nav-item.active
+            a.nav-link href="#"  Open
           li.nav-item
             a.nav-link href="#"  Save
+         
           li.nav-item
             a.nav-link href="#"  Save all
         .dropdown.ml-md-auto
