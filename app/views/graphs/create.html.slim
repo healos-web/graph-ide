@@ -1,0 +1,16 @@
+li.nav-item.form.row.ml-0.mr-0 id="graph-#{@graph.id}"
+    = render partial: 'rename_graph_modal'
+    a.nav-link.active[data-toggle="tab" title="Double click to change name" href="##{@graph.id}" role="tab" aria-selected="true" id="link-#{@graph.id.to_s}"]
+      | #{@graph.name}
+    = link_to "✕", close_graphs_path(id: @graph.id), class:"badge badge-danger cross-delete-text", title:"Delete graph", methdd: 'get', remote: :true
+    javascript:
+      var id = "#{@graph.id}";
+      $('#link-' + id).click(function(e) {
+        e.preventDefault();
+        $.ajax({
+          url: 'graphs/' + id,
+          type: "GET",
+          processData: false,
+          contentType: false
+        })
+      });

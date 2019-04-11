@@ -1,0 +1,9 @@
+| if ($.find('#graph-#{@graph.id}').length == 0) {
+| $('#graphs').append('
+= j render template: 'graphs/create.html.slim'
+| ');
+| $('#graph-#{@graph.id}').dblclick(function() {
+    $('#renameGraph#{@graph.id}Modal').modal('show');
+| });
+| }
+= render template: 'graphs/show.js.slim'
