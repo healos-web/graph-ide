@@ -1,2 +1,1 @@
-h1 Graph#destroy
-p Find me in app/views/graph/destroy.html.slim
+= link_to "Delete graph", graph_path(@graph.id), class:"nav-link active", title:"Delete graph", data: { confirm: "Are you sure?" }, method: :delete, remote: :true

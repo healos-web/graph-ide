@@ -5,7 +5,7 @@ html
       | GraphIDE
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag    'application', 'graphs', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag    'application', 'graphs', 'typehead', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   body
     nav.navbar.navbar-expand-lg.navbar-dark style="background-color: #44007e;"
@@ -14,16 +14,33 @@ html
         span.navbar-toggler-icon
       #navbarSupportedContent.collapse.navbar-collapse
         ul.navbar-nav.mr-auto
-          li.nav-item.active
+          li.nav-item.active.m-auto
               = link_to "New graph", graphs_path, class:"nav-link active", method: :post, remote: :true
               span.sr-only (current)
-          li.nav-item.active
-            a.nav-link href="#"  Open
-          li.nav-item
-            a.nav-link href="#"  Save
-         
-          li.nav-item
-            a.nav-link href="#"  Save all
+          = form_with url: open_graphs_path, class: 'form-inline', method: 'get' do |f|
+            li.nav-item.active.ml-5.mr-3
+              = f.submit "Open", class:"btn btn-outline-warning" 
+            li.nav-item.m-auto
+              = f.text_field :name, id: 'graph_name', placeholder: 'Find graph', class: 'form-control'
+              javascript:
+                var graphs = new Bloodhound({
+                  datumTokenizer: Bloodhound.tokenizers.whitespace,
+                  queryTokenizer: Bloodhound.tokenizers.whitespace,
+                  remote: {
+                    url: '/graphs/autocomplete?name=%QUERY',
+                    wildcard: '%QUERY'
+                  }
+                });
+                $('#graph_name').typeahead({
+                   highlight: true,
+                   hint: true,
+                   minLength: 1
+                },
+                {
+                  source: graphs
+                });
+          li#deleteNav.nav-item.active.ml-5
+            a
         .dropdown.ml-md-auto
           a#navbarDropdown.nav-link.link-active.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button" style="color:white;" 
             | Create element

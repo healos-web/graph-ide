@@ -4,5 +4,10 @@ Rails.application.routes.draw do
 
   resources :graphs do
     resources :nodes, :arcs
+    collection do
+      get :autocomplete
+      get :open
+      get :close
+    end
   end
 end

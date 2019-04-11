@@ -94,13 +94,24 @@ GEM
     connection_pool (2.2.2)
     crass (1.0.4)
     debug_inspector (0.0.3)
+    elasticsearch (6.2.0)
+      elasticsearch-api (= 6.2.0)
+      elasticsearch-transport (= 6.2.0)
+    elasticsearch-api (6.2.0)
+      multi_json
+    elasticsearch-transport (6.2.0)
+      faraday
+      multi_json
     enumerize (2.2.2)
       activesupport (>= 3.2)
     erubi (1.8.0)
     execjs (2.7.0)
+    faraday (0.15.4)
+      multipart-post (>= 1.2, < 3)
     ffi (1.10.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    hashie (3.6.0)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     io-like (0.3.0)
@@ -130,6 +141,7 @@ GEM
     minitest (5.11.3)
     msgpack (1.2.9)
     multi_json (1.13.1)
+    multipart-post (2.0.0)
     nio4r (2.3.1)
     nokogiri (1.10.2)
       mini_portile2 (~> 2.4.0)
@@ -218,6 +230,10 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    searchkick (3.1.2)
+      activemodel (>= 4.2)
+      elasticsearch (>= 5)
+      hashie
     selenium-webdriver (3.141.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
@@ -291,6 +307,7 @@ DEPENDENCIES
   responders (~> 2.0)
   rubocop
   sass-rails (~> 5.0)
+  searchkick
   selenium-webdriver
   slim
   slim-rails

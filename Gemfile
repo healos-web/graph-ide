@@ -59,6 +59,7 @@ group :development do
   gem "binding_of_caller"
   gem 'webpacker', '~> 4.x'
   gem 'responders', '~> 2.0'
+  gem 'searchkick'
 end
 
 group :test do
