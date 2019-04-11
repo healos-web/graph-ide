@@ -6,3 +6,9 @@
   line-height: -moz-block-height;
   font-size: medium;
 }
+
+.tools-bar ul {
+  min-height: 250px;
+  justify-content: space-between;
+  align-content: space-around;
+}

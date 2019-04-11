@@ -9,5 +9,8 @@ Rails.application.routes.draw do
       get :open
       get :close
     end
+    member do
+      post :delete_elements
+    end
   end
 end

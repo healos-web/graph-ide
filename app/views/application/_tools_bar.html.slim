@@ -1,9 +1,22 @@
 ul.nav.flex-column
   li.nav-item
-    = link_to image_tag('add_node_icon.png', size: '50x50', alt: 'Add new node'), graph_nodes(@graph.id), remote: true
+    = link_to image_tag('add_node_icon.png', size: '40x40', alt: 'Create node'),
+              graph_nodes_path(@graph.id),
+              remote: true  
   li.nav-item
-    a.nav-link href="#"  Link
+    = link_to image_tag('add_common_arc_icon.png', size: '40x40', alt: 'Create common arc'),
+              graph_arcs_path(@graph.id, type: 'common'),
+              remote: true
   li.nav-item
-    a.nav-link href="#"  Link
+     = link_to image_tag('add_oriented_arc_icon.png', size: '40x40', alt: 'Create oriented arc'),
+              graph_arcs_path(@graph.id, type: 'oriented'),
+              remote: true
   li.nav-item
-    a.nav-link.disabled aria-disabled="true" href="#" tabindex="-1"  Disabled
+    = link_to image_tag('update_elements_icon.png', size: '35x35', alt: 'Update'),
+              graph_arcs_path(@graph.id, type: 'common'),
+              remote: true
+  li.nav-item
+    = link_to image_tag('delete_elements_icon.png', size: '35x35', alt: 'Delete elements'),
+              delete_elements_graph_path(@graph.id),
+              data: { confirm: "Are you sure?" },
+              remote: true
