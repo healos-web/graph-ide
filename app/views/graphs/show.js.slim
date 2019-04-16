@@ -2,5 +2,8 @@
 = j render template: 'graphs/destroy.html.slim'
 | ');
 | $('.tools-bar ul').replaceWith('
-=j render partial: 'application/tools_bar.html.slim'
+= j render partial: 'application/tools_bar.html.slim'
+| ');
+| $('#working_area').replaceWith('
+= j render partial: 'application/working_area.html.slim'
 | ');

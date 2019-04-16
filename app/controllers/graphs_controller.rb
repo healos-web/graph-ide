@@ -3,7 +3,8 @@ class GraphsController < ApplicationController
   respond_to :js
 
   def create
-    @graph = Graph.create(name: 'New graph ' + (Graph.last.id + 1).to_s)
+    @graph = Graph.create
+    @graph.update(name: "New graph #{@graph.id}")
   end
 
   def update
