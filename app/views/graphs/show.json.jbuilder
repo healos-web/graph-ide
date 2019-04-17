@@ -6,6 +6,8 @@ json.nodes @graph.nodes do |node|
   json.y node.y
 end
 
+json.graph_id @graph.id
+
 json.arcs @graph.arcs.includes(:nodes) do |arc|
   json.color arc.color
   json.type arc.type

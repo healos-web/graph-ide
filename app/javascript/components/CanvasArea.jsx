@@ -3,6 +3,8 @@ import { Stage, Layer, Rect, Text } from 'react-konva';
 import Node from './Node'
 import Arc from './Arc'
 import Konva from 'konva';
+import Functions from '../utils/Functions'
+import axios from "axios";
 
 class CanvasArea extends Component {
   constructor(props) {
@@ -15,11 +17,10 @@ class CanvasArea extends Component {
 
     this.select = this.select.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.sendSelectedItems = this.sendSelectedItems.bind(this)
   }
 
   handleClick = (event) => {
-    console.log(event)
-    console.log(2)
     let selected = this.state.selected
     let refs = this.refs
     selected.nodes.forEach((node)=>{
@@ -29,7 +30,25 @@ class CanvasArea extends Component {
       eval("refs.Arc" + arc.id + ".select()");
     })
     this.setState({selected: {nodes: [], arcs: []}})
+    this.sendSelectedItems()
   };
+
+  sendSelectedItems() {
+    // axios.post('/graphs/' + this.props.graph_id + '/selected_elements', {
+    //     selected: this.state.selected,
+    //     authenticity_token: Functions.getMetaContent("csrf-token")
+    // })
+    let nodes = JSON.stringify(this.state.selected.nodes)
+    let arcs = JSON.stringify(this.state.selected.arcs)
+    $.ajax({
+      type: 'POST',
+      url: 'graphs/' + this.props.graph_id + '/selected_elements',
+      data: { nodes: nodes,
+              arcs: arcs,
+              authenticity_token: Functions.getMetaContent("csrf-token")
+            }
+    })
+  }
 
   select(object) {
     let selected = this.state.selected
@@ -43,6 +62,7 @@ class CanvasArea extends Component {
       index = selected.arcs.indexOf(object)
       index == -1 ? selected.arcs.push(object) : selected.arcs.splice(index, 1)
     }
+    this.sendSelectedItems()
   }
 
   render() {

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'application#index'
 
   resources :graphs, extend: %i[new edit] do
-    resources :nodes, :arcs, shallow: true, only: :update
+    resources :nodes, :arcs, shallow: true, only: %i[update]
     resources :nodes, :arcs, only: :create
     collection do
       get :autocomplete
@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       get :close
     end
     member do
+      post :update_elements
+      post :selected_elements
       post :delete_elements
     end
   end

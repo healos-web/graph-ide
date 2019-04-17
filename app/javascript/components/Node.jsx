@@ -30,9 +30,6 @@ class Node extends Component {
   handleClickNode(evt) {
     this.props.select(this.props.node)
     evt.cancelBubble = true
-    console.log(event)
-    console.log(1)
-
   };
 
   onDragStart = () => {
