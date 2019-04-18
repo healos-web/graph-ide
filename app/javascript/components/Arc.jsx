@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Arrow } from 'react-konva';
+import { Arrow, Group } from 'react-konva';
 import Konva from 'konva';
 import axios from 'axios';
 import Functions from '../utils/Functions'
@@ -10,7 +10,7 @@ class Arc extends Component {
     super(props);
     this.state = {
       color: props.arc.color,
-      arc_type: props.arc_type,
+      arc_type: props.arc.arc_type,
       startX: parseFloat(props.arc.start_x),
       startY: parseFloat(props.arc.start_y),
       finishX: parseFloat(props.arc.finish_x),
@@ -66,20 +66,32 @@ class Arc extends Component {
   }
 
   render() {
+    const commonArc = "common"
     const radius = 14
-    const { startX, startY, finishX, finishY, color, selected} = this.state
+    const { startX, startY, finishX, finishY, color, selected, arc_type} = this.state
     const distance = this.calculDistance({x: startX, y: startY}, {x: finishX, y: finishY})
     const indent = this.calculIndent(finishX - startX, finishY - startY, distance, radius)
+    if (arc_type == commonArc)
+      var secondArrow = <Arrow
+                          points={[-indent.x + finishX, -indent.y + finishY, indent.x + startX, indent.y + startY]}
+                          pointerLength={5}
+                          pointerWidth={10}
+                          fill={selected ? 'green' : color}
+                          stroke={selected ? 'green' : color}
+                          strokeWidth={6}
+                        />
     return (
-      <Arrow
-        onClick={this.handleClickArc}
-        points={[indent.x + startX, indent.y + startY, -indent.x + finishX, -indent.y + finishY]}
-        pointerLength={5}
-        pointerWidth={10}
-        fill={selected ? 'green' : color}
-        stroke={selected ? 'green' : color}
-        strokeWidth={6}
-      />
+      <Group onClick={this.handleClickArc}>
+        <Arrow
+          points={[indent.x + startX, indent.y + startY, -indent.x + finishX, -indent.y + finishY]}
+          pointerLength={5}
+          pointerWidth={10}
+          fill={selected ? 'green' : color}
+          stroke={selected ? 'green' : color}
+          strokeWidth={6}
+        />
+        { secondArrow }
+      </Group>
     );
   }
 }

@@ -11,6 +11,10 @@
             .form-group.mb-3.w-50
               = f.label :name, "Node name"
               = f.text_field :name, class: "form-control w-75", value: @nodes.first['name'], require: true
+          - if unique_arc?
+            .form-group.mb-3.w-50
+              = f.label :arc_type, "Type"
+              = f.select :arc_type,  options_for_select(['common', 'oriented'], @arcs.first['arc_type']), { require: true }, { class: "form-control w-100" }
           .form-group.mb-3.w-50
             = f.label :color, 'Color'
             = f.color_field :color, class: 'form-control w-100', value: color

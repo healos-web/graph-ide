@@ -40,6 +40,7 @@ class GraphsController < ApplicationController
 
   def update_elements
     find_node(params[:nodes].first).update(name: node_params) if node_params
+    find_arc(params[:arcs].first).update(arc_type: arc_params) if arc_params
     params[:nodes]&.map { |id| find_node(id).update(color: params[:color]) }
     params[:arcs]&.map { |id| find_arc(id).update(color: params[:color]) }
   end
@@ -54,6 +55,10 @@ class GraphsController < ApplicationController
 
   def node_params
     params[:name]
+  end
+
+  def arc_params
+    params[:arc_type]
   end
 
   def find_node(id)
