@@ -1,8 +1,8 @@
 class Arc < ApplicationRecord
   extend Enumerize
   belongs_to :graph
-  has_one :node, as: :start_node, through: :graph
-  has_one :node, as: :finish_node, through: :graph
+  belongs_to :start_node, class_name: 'Node'
+  belongs_to :finish_node, class_name: 'Node'
 
-  enumerize :type, in: %i[oriented common], default: :common
+  enumerize :arc_type, in: %i[oriented common], default: :common
 end

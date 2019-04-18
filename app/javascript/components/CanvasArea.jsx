@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Stage, Layer, Rect, Text } from 'react-konva';
 import Node from './Node'
 import Arc from './Arc'
-import Konva from 'konva';
 import Functions from '../utils/Functions'
 import axios from "axios";
 
@@ -18,11 +17,12 @@ class CanvasArea extends Component {
     this.select = this.select.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.sendSelectedItems = this.sendSelectedItems.bind(this)
+    this.moveArc = this.moveArc.bind(this)
   }
 
   handleClick = (event) => {
-    let selected = this.state.selected
-    let refs = this.refs
+    const selected = this.state.selected
+    const refs = this.refs
     selected.nodes.forEach((node)=>{
       eval("refs.Node" + node.id + ".select()");
     })
@@ -33,11 +33,18 @@ class CanvasArea extends Component {
     this.sendSelectedItems()
   };
 
+  moveArc(id, x, y) {
+    const arcs = this.state.arcs
+    const refs = this.refs
+    arcs.forEach( (arc) => {
+      if (arc.start_id == id)
+        eval("refs.Arc" + arc.id + ".changeStartCoordinates(x, y)");
+      if (arc.finish_id == id)
+        eval("refs.Arc" + arc.id + ".changeFinishCoordinates(x, y)");
+    })
+  }
+
   sendSelectedItems() {
-    // axios.post('/graphs/' + this.props.graph_id + '/selected_elements', {
-    //     selected: this.state.selected,
-    //     authenticity_token: Functions.getMetaContent("csrf-token")
-    // })
     let nodes = JSON.stringify(this.state.selected.nodes)
     let arcs = JSON.stringify(this.state.selected.arcs)
     $.ajax({
@@ -61,6 +68,7 @@ class CanvasArea extends Component {
     else {
       index = selected.arcs.indexOf(object)
       index == -1 ? selected.arcs.push(object) : selected.arcs.splice(index, 1)
+      eval("this.refs.Arc" + object.id + ".select()");
     }
     this.sendSelectedItems()
   }
@@ -77,7 +85,16 @@ class CanvasArea extends Component {
             { nodes.map(node => (
               <Node key={node.id}
                     ref={"Node" + node.id}
+                    moveArc={this.moveArc}
                     node={node}
+                    width={parent.clientWidth}
+                    height={parent.clientHeight}
+                    select={this.select}/>
+            )) }
+            { arcs.map(arc => (
+              <Arc key={arc.id}
+                    ref={"Arc" + arc.id}
+                    arc={arc}
                     width={parent.clientWidth}
                     height={parent.clientHeight}
                     select={this.select}/>

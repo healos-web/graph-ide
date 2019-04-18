@@ -38,28 +38,18 @@ class Node extends Component {
     })
   }
 
-  checkCanvasBorder(x, y){
-    const { width, height } = this.props
-    if (x > 20 && x < (width - 20) && y > 20 && y < (height - 20))
-      return true;
-    else
-      return false;
-  } 
-
   onDragEnd = e => {
     const x = e.target.x()
     const y = e.target.y()
-    if (this.checkCanvasBorder(x, y)) {
-      this.setState({
-        isDraggable: false,
-        x: x,
-        y: y
-      })
-      axios.patch('nodes/' + this.state.id, { 
-        node: {x: x, y: y},
-        authenticity_token: Functions.getMetaContent("csrf-token")
-      })
-    }
+    this.setState({
+      isDraggable: false,
+      x: x,
+      y: y
+    })
+    axios.patch('nodes/' + this.state.id, { 
+      node: {x: x, y: y},
+      authenticity_token: Functions.getMetaContent("csrf-token")
+    })
   }
 
   dragBoundFunc = (pos) => {
@@ -68,6 +58,7 @@ class Node extends Component {
     var newX = pos.x > width - 15 ? width - 15 : pos.x
     newY = newY > 20 ? newY : 20
     newX = newX > 20 ? newX : 20
+    this.props.moveArc(this.state.id, newX, newY)
     return {
       x: newX,
       y: newY
@@ -85,6 +76,7 @@ class Node extends Component {
         draggable
         onDragStart={this.onDragStart}
         onDragEnd={this.onDragEnd}
+        //onDragMove={this.onDragMove}
         dragBoundFunc={this.dragBoundFunc}
         onClick={this.handleClickNode}>
         <Circle

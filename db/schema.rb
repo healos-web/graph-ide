@@ -13,12 +13,16 @@
 ActiveRecord::Schema.define(version: 2019_04_11_184329) do
 
   create_table "arcs", force: :cascade do |t|
-    t.string "type", default: "common"
+    t.string "arc_type", default: "common"
     t.string "color", default: "#000000"
     t.integer "graph_id"
+    t.integer "start_node_id"
+    t.integer "finish_node_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["finish_node_id"], name: "index_arcs_on_finish_node_id"
     t.index ["graph_id"], name: "index_arcs_on_graph_id"
+    t.index ["start_node_id"], name: "index_arcs_on_start_node_id"
   end
 
   create_table "graphs", force: :cascade do |t|
