@@ -1,9 +1,37 @@
-ul.nav.flex-column
+ul#tools-bar.nav.flex-column
   li.nav-item
-    = link_to image_tag('add_node_icon.png', size: '50x50', alt: 'Add new node'), graph_nodes(@graph.id), remote: true
-  li.nav-item
-    a.nav-link href="#"  Link
-  li.nav-item
-    a.nav-link href="#"  Link
-  li.nav-item
-    a.nav-link.disabled aria-disabled="true" href="#" tabindex="-1"  Disabled
+    = link_to image_tag('add_node_icon.png', size: '35x35', alt: 'Create node'),
+              graph_nodes_path(@graph.id),
+              class: 'btn btn-light',
+              method: :post,
+              remote: true
+  - if @nodes && @arcs
+    - if @nodes.length == 2 && @arcs.length == 0
+      li.nav-item
+        = link_to image_tag('add_common_arc_icon.png', size: '35x35', alt: 'Create common arc'),
+                  graph_arcs_path(@graph.id, arc_type: 'common', start_node_id: nodes_id.first, finish_node_id: nodes_id.last),
+                  method: :post,
+                  class: 'btn btn-light',
+                  remote: true
+      li.nav-item
+        = link_to image_tag('add_oriented_arc_icon.png', size: '35x35', alt: 'Create oriented arc'),
+                  graph_arcs_path(@graph.id, arc_type: 'oriented', start_node_id: nodes_id.first, finish_node_id: nodes_id.last),
+                  method: :post,
+                  class: 'btn btn-light',
+                  remote: true
+    - if @nodes.length > 0 || @arcs.length > 0
+      li.nav-item
+        = render 'update_modal'
+        a.btn.btn-light[id="updateElementsLink"]
+          = image_tag 'update_elements_icon.png', size: '35x35', alt: 'Update'
+        javascript:
+          $('#updateElementsLink').click(function() {
+            $('#updateElementsModal').modal('show');
+          });
+      li.nav-item
+        = link_to image_tag('delete_elements_icon.png', size: '35x35', alt: 'Delete elements'),
+                  delete_elements_graph_path(@graph.id, nodes: nodes_id, arcs: arcs_id),
+                  method: :post,
+                  class: 'btn btn-light',
+                  data: { confirm: "Are you sure?" },
+                  remote: true

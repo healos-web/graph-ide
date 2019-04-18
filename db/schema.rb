@@ -10,16 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_30_090441) do
+ActiveRecord::Schema.define(version: 2019_04_11_184329) do
 
   create_table "arcs", force: :cascade do |t|
-    t.string "type", default: "common"
+    t.string "arc_type", default: "common"
     t.string "color", default: "#000000"
-    t.string "weight"
     t.integer "graph_id"
+    t.integer "start_node_id"
+    t.integer "finish_node_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["finish_node_id"], name: "index_arcs_on_finish_node_id"
     t.index ["graph_id"], name: "index_arcs_on_graph_id"
+    t.index ["start_node_id"], name: "index_arcs_on_start_node_id"
   end
 
   create_table "graphs", force: :cascade do |t|
@@ -29,12 +32,13 @@ ActiveRecord::Schema.define(version: 2019_03_30_090441) do
   end
 
   create_table "nodes", force: :cascade do |t|
-    t.string "form", default: "circle"
     t.string "color", default: "#000000"
-    t.string "name", null: false
+    t.string "name"
     t.integer "graph_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "x"
+    t.decimal "y"
     t.index ["graph_id"], name: "index_nodes_on_graph_id"
   end
 

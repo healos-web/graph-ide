@@ -1,0 +1,23 @@
+.modal aria-hidden="true" id="updateElementsModal" aria-labelledby="exampleModalCenterTitle" role="dialog" tabindex="-1" 
+  .modal-dialog.modal-dialog-centered role="document" 
+    .modal-content
+      .modal-header
+        h5#exampleModalCenterTitle.modal-title Update elements
+        button.close aria-label="Close" data-dismiss="modal" type="button" 
+          span aria-hidden="true"  &times;
+      .modal-body
+        = form_with url: update_elements_graph_path(@graph.id, nodes: nodes_id, arcs: arcs_id), class: 'form-inline' do |f|
+          - if unique_node?
+            .form-group.mb-3.w-50
+              = f.label :name, "Node name"
+              = f.text_field :name, class: "form-control w-75", value: @nodes.first['name'], require: true
+          - if unique_arc?
+            .form-group.mb-3.w-50
+              = f.label :arc_type, "Type"
+              = f.select :arc_type,  options_for_select(['common', 'oriented'], @arcs.first['arc_type']), { require: true }, { class: "form-control w-100" }
+          .form-group.mb-3.w-50
+            = f.label :color, 'Color'
+            = f.color_field :color, class: 'form-control w-100', value: color
+          .modal-footer
+            button.btn.btn-secondary data-dismiss="modal" type="button"  Close
+            = f.submit "Save Changes", id:'submitUpdates', class: "btn btn-primary"

@@ -4,11 +4,10 @@ li.nav-item.form.row.ml-0.mr-0 id="graph-#{@graph.id}"
       | #{@graph.name}
     = link_to "✕", close_graphs_path(id: @graph.id), class:"badge badge-danger cross-delete-text", title:"Delete graph", methdd: 'get', remote: :true
     javascript:
-      var id = "#{@graph.id}";
-      $('#link-' + id).click(function(e) {
+      $('#link-' + "#{@graph.id}").click(function(e) {
         e.preventDefault();
         $.ajax({
-          url: 'graphs/' + id,
+          url: 'graphs/' + "#{@graph.id}",
           type: "GET",
           processData: false,
           contentType: false

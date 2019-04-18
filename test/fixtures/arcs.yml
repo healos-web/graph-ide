@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  type: 
+  arc_type: 
   color: MyString
   name: MyString
 
 two:
-  type: 
+  arc_type: 
   color: MyString
   name: MyString

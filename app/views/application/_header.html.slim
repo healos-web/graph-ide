@@ -1,0 +1,33 @@
+nav.navbar.navbar-expand-lg.navbar-dark.header style="background-color: #44007e;"
+    a.navbar-brand href="#"  GraphEditor
+    button.navbar-toggler aria-controls="navbarSupportedContent" aria-expanded="false" aria-label=("Toggle navigation") data-target="#navbarSupportedContent" data-toggle="collapse" type="button" 
+      span.navbar-toggler-icon
+    #navbarSupportedContent.collapse.navbar-collapse
+      ul.navbar-nav.mr-auto
+        li.nav-item.active.m-auto
+            = link_to "New graph", graphs_path, class:"nav-link active", method: :post, remote: :true
+            span.sr-only (current)
+        = form_with url: open_graphs_path, class: 'form-inline', method: 'get' do |f|
+          li.nav-item.active.ml-5.mr-3
+            = f.submit "Open", class:"btn btn-outline-warning" 
+          li.nav-item.m-auto
+            = f.text_field :name, id: 'graph_name', placeholder: 'Find graph', class: 'form-control'
+            javascript:
+              var graphs = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                  url: '/graphs/autocomplete?name=%QUERY',
+                  wildcard: '%QUERY'
+                }
+              });
+              $('#graph_name').typeahead({
+                  highlight: true,
+                  hint: true,
+                  minLength: 1
+              },
+              {
+                source: graphs
+              });
+        li#deleteNav.nav-item.active.ml-5
+          a

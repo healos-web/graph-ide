@@ -1,1 +1,5 @@
-ul class="nav nav-tabs" id="graphs"
+#working_area.form-row
+  .canvas.md-11.w-100
+    = react_component('CanvasArea', render(template: 'graphs/show.json'))
+    javascript:
+      ReactRailsUJS.mountComponents()
