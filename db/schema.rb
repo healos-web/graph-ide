@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_11_184329) do
+ActiveRecord::Schema.define(version: 2019_04_19_080715) do
 
   create_table "arcs", force: :cascade do |t|
     t.string "arc_type", default: "common"
@@ -39,6 +39,8 @@ ActiveRecord::Schema.define(version: 2019_04_11_184329) do
     t.datetime "updated_at", null: false
     t.decimal "x"
     t.decimal "y"
+    t.integer "leaving_arcs_count"
+    t.integer "incoming_arcs_count"
     t.index ["graph_id"], name: "index_nodes_on_graph_id"
   end
 

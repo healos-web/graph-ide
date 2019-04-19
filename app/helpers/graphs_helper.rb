@@ -1,14 +1,21 @@
-module GraphHelper
+module GraphsHelper
+  include NodesHelper
   def unique_node?
-    return false unless check_elements?
-
-    @nodes.length == 1 && @arcs.length.zero? ? true : false
+    special_length?(arcs: 0, nodes: 1)
   end
 
   def unique_arc?
+    special_length?(arcs: 1, nodes: 0)
+  end
+
+  def any_elements?
+    @nodes.length.positive? || @arcs.length.positive?
+  end
+
+  def special_length?(arcs:, nodes:)
     return false unless check_elements?
 
-    @nodes.length.zero? && @arcs.length == 1 ? true : false
+    @nodes.length == nodes && @arcs.length == arcs
   end
 
   def color
@@ -23,8 +30,6 @@ module GraphHelper
   def arcs_id
     @arcs.map { |arc| arc['id'] }
   end
-
-  private
 
   def check_elements?
     @nodes && @arcs ? true : false

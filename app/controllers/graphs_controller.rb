@@ -4,11 +4,11 @@ class GraphsController < ApplicationController
 
   def create
     @graph = Graph.create
-    @graph.update(name: "New graph #{@graph.id}")
+    @graph.update(name: new_graph_name(@graph.id))
   end
 
   def update
-    @graph.update(params.require(:graph).permit(:name))
+    head :no_content unless @graph.update(params.require(:graph).permit(:name))
   end
 
   def destroy
@@ -47,7 +47,7 @@ class GraphsController < ApplicationController
 
   def delete_elements
     params[:nodes]&.map { |id| find_node(id).destroy }
-    params[:arcs]&.map { |id| find_arc(id).destroy }
+    params[:arcs]&.map { |id| find_arc(id)&.destroy }
     render 'show'
   end
 
@@ -67,6 +67,10 @@ class GraphsController < ApplicationController
 
   def find_arc(id)
     Arc.find_by(id: id)
+  end
+
+  def new_graph_name(id)
+    "New graph #{id}"
   end
 
   def find_graph

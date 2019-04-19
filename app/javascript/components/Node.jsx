@@ -13,6 +13,7 @@ class Node extends Component {
       x: props.node.x,
       y: props.node.y,
       color: props.node.color,
+      power: props.node.power,
       id: props.node.id,
       isDraggable: false,
       selected: false
@@ -68,7 +69,16 @@ class Node extends Component {
   render() {
     const radius = 12
     const strokeWidth = 4
-    const { name, x, y, color, selected, isDraggable} = this.state
+    const { power, name, x, y, color, selected, isDraggable} = this.state
+    if (selected)
+      var powerText =  <Text 
+                          x = {-4}
+                          y = {-5}
+                          fontSize = {13}
+                          fontFamily = 'Times New Roman'
+                          text = {power.toString()}
+                          fill = 'black'
+                          padding = {0}/>
     return (
       <Group
         x={parseFloat(x)}
@@ -84,6 +94,7 @@ class Node extends Component {
           strokeEnabled={true}
           strokeWidth={strokeWidth}
           stroke={selected || isDraggable ? 'green' : color}/>
+        {powerText}
         <Text 
           fontSize = {15}
           fontFamily = 'Calibri'

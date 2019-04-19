@@ -5,8 +5,8 @@ ul#tools-bar.nav.flex-column
               class: 'btn btn-light',
               method: :post,
               remote: true
-  - if @nodes && @arcs
-    - if @nodes.length == 2 && @arcs.length == 0
+  - if check_elements?
+    - if unique_node? || special_length?(arcs: 0, nodes: 2)
       li.nav-item
         = link_to image_tag('add_common_arc_icon.png', size: '35x35', alt: 'Create common arc'),
                   graph_arcs_path(@graph.id, arc_type: 'common', start_node_id: nodes_id.first, finish_node_id: nodes_id.last),
@@ -19,7 +19,7 @@ ul#tools-bar.nav.flex-column
                   method: :post,
                   class: 'btn btn-light',
                   remote: true
-    - if @nodes.length > 0 || @arcs.length > 0
+    - if any_elements?
       li.nav-item
         = render 'update_modal'
         a.btn.btn-light[id="updateElementsLink"]

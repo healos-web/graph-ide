@@ -4,6 +4,7 @@ json.nodes @graph.nodes do |node|
   json.color node.color
   json.x node.x
   json.y node.y
+  json.power calcul_power(node)
 end
 
 json.graph_id @graph.id
