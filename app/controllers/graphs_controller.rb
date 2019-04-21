@@ -5,10 +5,15 @@ class GraphsController < ApplicationController
   def create
     @graph = Graph.create
     @graph.update(name: new_graph_name(@graph.id))
+    calcul_qualities
   end
 
   def update
     head :no_content unless @graph.update(params.require(:graph).permit(:name))
+  end
+
+  def show
+    calcul_qualities
   end
 
   def destroy
@@ -17,11 +22,11 @@ class GraphsController < ApplicationController
 
   def autocomplete
     render json: Graph.search(params[:name],
-    {
-      limit: 10,
-      load: false,
-      misspellings: { below: 3 }
-    }).map(&:name)
+                              {
+                                limit: 10,
+                                load: false,
+                                misspellings: { below: 3 }
+                              }).map(&:name)
   end
 
   def open
@@ -48,13 +53,22 @@ class GraphsController < ApplicationController
   def delete_elements
     params[:nodes]&.map { |id| find_node(id).destroy }
     params[:arcs]&.map { |id| find_arc(id)&.destroy }
-    render 'show'
+    render 'show_ajax'
   end
 
   private
 
   def node_params
-    params[:name]
+    params[:name] if params[:name] =~ /\A((?!node \d).)*\z/
+  end
+
+  def calcul_qualities
+    @matrix = GraphService.get_adjacency_matrix(@graph.nodes, @graph.arcs)
+    eccentricities = GraphService.find_eccentricities(@matrix)
+    @radius = GraphService.get_radius(eccentricities)
+    @diameter = GraphService.get_diameter(eccentricities)
+    @center = GraphService.get_diameter(eccentricities)
+    @full_graph = GraphService.full?(@matrix)
   end
 
   def arc_params

@@ -4,8 +4,8 @@ class NodesController < ApplicationController
   def create
     find_graph
     node = @graph.nodes.create(x: DEFAULT_POINT_X, y: DEFAULT_POINT_Y)
-    node.update(name: node.id.to_s)
-    render :js, template: 'graphs/show'
+    node.update(name: new_node_name(node.id))
+    render 'graphs/show_ajax'
   end
 
   def update
@@ -17,6 +17,10 @@ class NodesController < ApplicationController
 
   def find_node
     @node = Node.find(params[:id])
+  end
+
+  def new_node_name(id)
+    "node #{id}"
   end
 
   def params_node

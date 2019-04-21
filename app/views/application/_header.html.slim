@@ -3,7 +3,7 @@ nav.navbar.navbar-expand-lg.navbar-dark.header style="background-color: #44007e;
     button.navbar-toggler aria-controls="navbarSupportedContent" aria-expanded="false" aria-label=("Toggle navigation") data-target="#navbarSupportedContent" data-toggle="collapse" type="button" 
       span.navbar-toggler-icon
     #navbarSupportedContent.collapse.navbar-collapse
-      ul.navbar-nav.mr-auto
+      ul.navbar-nav
         li.nav-item.active.m-auto
             = link_to "New graph", graphs_path, class:"nav-link active", method: :post, remote: :true
             span.sr-only (current)
@@ -29,5 +29,4 @@ nav.navbar.navbar-expand-lg.navbar-dark.header style="background-color: #44007e;
               {
                 source: graphs
               });
-        li#deleteNav.nav-item.active.ml-5
-          a
+      ul#graphFunctions.navbar-nav

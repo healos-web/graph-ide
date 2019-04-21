@@ -1,37 +1,41 @@
 ul#tools-bar.nav.flex-column
   li.nav-item
-    = link_to image_tag('add_node_icon.png', size: '35x35', alt: 'Create node'),
+    = link_to image_tag('add_node_icon.png', size: '35x35'),
               graph_nodes_path(@graph.id),
               class: 'btn btn-light',
+              title: 'Create node',
               method: :post,
               remote: true
   - if check_elements?
     - if unique_node? || special_length?(arcs: 0, nodes: 2)
       li.nav-item
-        = link_to image_tag('add_common_arc_icon.png', size: '35x35', alt: 'Create common arc'),
+        = link_to image_tag('add_common_arc_icon.png', size: '35x35'),
                   graph_arcs_path(@graph.id, arc_type: 'common', start_node_id: nodes_id.first, finish_node_id: nodes_id.last),
                   method: :post,
+                  title: 'Create common arc',
                   class: 'btn btn-light',
                   remote: true
       li.nav-item
-        = link_to image_tag('add_oriented_arc_icon.png', size: '35x35', alt: 'Create oriented arc'),
+        = link_to image_tag('add_oriented_arc_icon.png', size: '35x35'),
                   graph_arcs_path(@graph.id, arc_type: 'oriented', start_node_id: nodes_id.first, finish_node_id: nodes_id.last),
                   method: :post,
+                  title: 'Create oriented arc',
                   class: 'btn btn-light',
                   remote: true
     - if any_elements?
       li.nav-item
         = render 'update_modal'
-        a.btn.btn-light[id="updateElementsLink"]
-          = image_tag 'update_elements_icon.png', size: '35x35', alt: 'Update'
+        a.btn.btn-light[id="updateElementsLink" title='Update elements']
+          = image_tag 'update_elements_icon.png', size: '35x35'
         javascript:
           $('#updateElementsLink').click(function() {
             $('#updateElementsModal').modal('show');
           });
       li.nav-item
-        = link_to image_tag('delete_elements_icon.png', size: '35x35', alt: 'Delete elements'),
+        = link_to image_tag('delete_elements_icon.png', size: '35x35'),
                   delete_elements_graph_path(@graph.id, nodes: nodes_id, arcs: arcs_id),
                   method: :post,
                   class: 'btn btn-light',
+                  title: 'Delete elements',
                   data: { confirm: "Are you sure?" },
                   remote: true

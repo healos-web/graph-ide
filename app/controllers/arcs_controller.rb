@@ -7,7 +7,7 @@ class ArcsController < ApplicationController
                          start_node_id: params[:start_node_id],
                          finish_node_id: params[:finish_node_id])
     end
-    render template: 'graphs/show.js.slim'
+    render 'graphs/show_ajax'
   end
 
   private

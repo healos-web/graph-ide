@@ -1,0 +1,34 @@
+ul#graphFunctions.navbar-nav
+  li#deleteNav.nav-item.active.ml-5
+    = link_to "Delete graph",
+      graph_path(@graph.id),
+      class:"nav-link active",
+      title:"Delete graph",
+      data: { confirm: "Are you sure?" },
+      method: :delete,
+      remote: :true
+  li#toFullGraph.nav-item.active.ml-5
+    = link_to "To full graph",
+      graph_path(@graph.id),
+      class:"nav-link active",
+      title:"To full graph",
+      data: { confirm: "Are you sure?" },
+      remote: :true
+  li#findHamiltonianСycles.nav-item.active.ml-5
+    = link_to "Find Hamiltonian cycles",
+      graph_path(@graph.id),
+      class:"nav-link active",
+      title:"Find Hamiltonian cycles",
+      remote: :true
+  li#calculVectorProduct.nav-item.active.ml-5
+    = link_to "Vector product",
+      graph_path(@graph.id),
+      class:"nav-link active",
+      title:"Calcul vector product of two graphs",
+      remote: :true
+  li#calculCartesianProduct.nav-item.active.ml-5
+    = link_to "Cartesian product",
+      graph_path(@graph.id),
+      class:"nav-link active",
+      title:"Calcul cartesian product of two graphs",
+      remote: :true
