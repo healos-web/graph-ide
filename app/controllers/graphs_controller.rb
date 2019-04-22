@@ -1,10 +1,16 @@
 class GraphsController < ApplicationController
-  before_action :find_graph, extend: %i[create autocomplete open]
+  before_action :find_graph, extend: %i[create autocomplete open calcul_cartesian_product calcul_vector_product]
   respond_to :js
+
+  def index
+    @graphs = Graph.all
+    @type = params[:product]
+  end
 
   def create
     @graph = Graph.create
-    @graph.update(name: new_graph_name(@graph.id))
+    @graph.name = new_graph_name(@graph.id)
+    @graph.save(validate: false)
     calcul_qualities
   end
 
@@ -39,6 +45,45 @@ class GraphsController < ApplicationController
     render 'destroy'
   end
 
+  def to_full
+    arcs = @graph.arcs
+    nodes = @graph.nodes
+    matrix = GraphService.get_adjacency_matrix(nodes, arcs)
+    arcs.each do |arc|
+      arc.update(arc_type: 'common')
+    end
+    nodes.length.times do |start_node|
+      nodes.length.times do |finish_node|
+        unless GraphService.adjacency_nodes?(matrix, start_node, finish_node)
+          @graph.arcs.create(start_node: nodes[start_node], finish_node: nodes[finish_node], arc_type: 'common') if start_node != finish_node
+        end
+      end
+    end
+    render 'show_ajax'
+  end
+
+  def find_hamiltonyan_cycles
+    @cycles = GraphService.find_hamiltonyan_cycles(@graph)
+    @string_cycles = []
+    nodes = @graph.nodes
+    @cycles.each do |cycle|
+      string = ''
+      cycle.each do |node_index|
+        string += " => #{nodes[node_index].name} (#{nodes[node_index].id})"
+      end
+      @string_cycles.push(string)
+    end
+  end
+
+  def calcul_cartesian_product
+    @graph1 = Graph.find_by(id: params[:first_graph_id])
+    @graph2 = Graph.find_by(id: params[:second_graph_id])
+    cartesian_matrix = GraphService.cartesian_product_matrix(@graph1, @graph2)
+    @graph = create_graph_by_matrix(cartesian_matrix)
+    calcul_qualities
+    render 'create'
+  end
+
   def selected_elements
     @nodes = JSON.parse(params[:nodes]) if params[:nodes]
     @arcs = JSON.parse(params[:arcs]) if params[:arcs]
@@ -58,6 +103,32 @@ class GraphsController < ApplicationController
   end
 
   private
+
+  def create_graph_by_matrix(matrix)
+    start_x = 200
+    start_y = 200
+    graph = Graph.create
+    graph.name = new_graph_name(graph.id)
+    graph.save(validate: false)
+    matrix.length.times do |t|
+      graph.nodes.create(x: start_x, y: start_y, name: "node #{t+1}")
+      start_x < 600 ? start_x += 10 : start_x -= 10
+      start_y < 600 ? start_y += 10 : start_y -= 10
+    end
+    nodes = graph.nodes
+    matrix.length.times do |i|
+      matrix.length.times do |j|
+        if matrix[i][j] == 1 
+          if arc = graph.arcs.find_by(start_node: nodes[j], finish_node: nodes[i])
+            arc.update(arc_type: 'common')
+          else
+            graph.arcs.create(arc_type: 'oriented', start_node: nodes[i], finish_node: nodes[j])
+          end
+        end
+      end
+    end
+    graph
+  end
 
   def node_params
     params[:name]

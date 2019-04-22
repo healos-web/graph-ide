@@ -6,11 +6,16 @@ Rails.application.routes.draw do
     resources :nodes, :arcs, shallow: true, only: %i[update]
     resources :nodes, :arcs, only: :create
     collection do
+      get :get_graphs
+      post :calcul_cartesian_product
+      post :calcul_vector_product
       get :autocomplete
       get :open
       get :close
     end
     member do
+      post :find_hamiltonyan_cycles
+      post :to_full
       post :update_elements
       post :selected_elements
       post :delete_elements

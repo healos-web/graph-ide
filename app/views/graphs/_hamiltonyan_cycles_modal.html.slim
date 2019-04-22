@@ -1,0 +1,12 @@
+.modal.fade aria-hidden="true" id="hamiltonyanCycles" aria-labelledby="HamiltonyanCycles" role="dialog" tabindex="-1" 
+  .modal-dialog.modal-dialog-centered role="document" 
+    .modal-content
+      .modal-header
+        h5#exampleModalCenterTitle.modal-title Hamiltonyan cycles
+        button.close aria-label="Close" data-dismiss="modal" type="button" 
+          span aria-hidden="true"  &times;
+      .modal-body
+      ul.list-group  
+        - @string_cycles.each do |cycle|
+          li.list-group-item
+            = cycle.slice(3..cycle.length)

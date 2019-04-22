@@ -9,26 +9,35 @@ ul#graphFunctions.navbar-nav
       remote: :true
   li#toFullGraph.nav-item.active.ml-5
     = link_to "To full graph",
-      graph_path(@graph.id),
+      to_full_graph_path(@graph.id),
       class:"nav-link active",
+      method: 'post',
       title:"To full graph",
       data: { confirm: "Are you sure?" },
       remote: :true
   li#findHamiltonianСycles.nav-item.active.ml-5
+    #hamiltonyanCycles
     = link_to "Find Hamiltonian cycles",
-      graph_path(@graph.id),
+      find_hamiltonyan_cycles_graph_path(@graph.id),
       class:"nav-link active",
+      method: 'post',
       title:"Find Hamiltonian cycles",
       remote: :true
+  #choosingGraphs
   li#calculVectorProduct.nav-item.active.ml-5
     = link_to "Vector product",
-      graph_path(@graph.id),
+      '#',
       class:"nav-link active",
       title:"Calcul vector product of two graphs",
       remote: :true
   li#calculCartesianProduct.nav-item.active.ml-5
     = link_to "Cartesian product",
-      graph_path(@graph.id),
+      '#',
       class:"nav-link active",
       title:"Calcul cartesian product of two graphs",
       remote: :true
+  javascript:
+    $('#calculCartesianProduct').click(function() {
+      $.get('/graphs', { product: 'cartesian' });
+    });
+      

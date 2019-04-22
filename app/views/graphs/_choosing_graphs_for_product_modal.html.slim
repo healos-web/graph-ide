@@ -1,0 +1,14 @@
+.modal.fade aria-hidden="true" id="choosingGraphs" aria-labelledby="choosingGraphs" role="dialog" tabindex="-1" 
+  .modal-dialog.modal-dialog-centered role="document" 
+    .modal-content
+      .modal-header
+        h5#exampleModalCenterTitle.modal-title Choose graphs for product
+        button.close aria-label="Close" data-dismiss="modal" type="button" 
+          span aria-hidden="true"  &times;
+      .modal-body
+        = form_with url: send(self, "calcul_#{@type}_product_graphs_path"), class: 'form-inline', method: :post do |f|
+          = f.select :first_graph_id, options_for_select(@graphs, @graph), { require: true }, { class: "form-control" }
+          = f.select :second_graph_id, options_for_select(@graphs), { require: true }, { class: "form-control" }
+          = f.submit
+
+     
