@@ -1,0 +1,21 @@
+#adjacencyTable
+  .card
+    #headingOne.card-header
+      h2.mb-0.text-center
+        button.btn.btn-light.btn-lg type="button" data-toggle="collapse" data-target="#Collapse" aria-expanded="true" aria-controls="Collapse"
+          | Show adjacency table
+    #Collapse.collapse.hide  aria-labelledby="headingOne" data-parent="#adjacencyTable"
+      .card-body
+          table.table.table-bordered
+            thead
+              tr
+                th scope="col" adjacency table
+                - @graph.nodes.select(:name, :Id).each do |node|
+                  th scope="col"  = "#{node.name} (#{node.id})"
+            tbody
+              - @graph.nodes.count.times do |index|
+                tr
+                  th scope="row" 
+                    = "#{@graph.nodes[index].name} (#{@graph.nodes[index].id})"
+                    - @matrix[index].each do |elem|
+                      td = elem

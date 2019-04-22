@@ -1,0 +1,8 @@
+#graph_info
+  h3.mt-3.text-center Graph info
+  h4.mt-4 = "Radius: #{@radius}"
+  h4.mt-4 = "Diameter: #{@diameter}"
+  h4.mt-4 Center:
+  ul.list-group
+    - @center.each do |node|
+      li.list-group-item = "#{node.name} (#{node.id})"

@@ -1,9 +1,15 @@
 | $('#graphFunctions').replaceWith('
-= j render template: 'graphs/functions.html.slim'
+= j render template: 'graphs/functions'
 | ');
 | $('#tools-bar').replaceWith('
 = j render partial: 'application/tools_bar.html.slim'
 | ');
 | $('#working_area').replaceWith('
 = j render partial: 'application/working_area.html.slim'
+| ');
+| $('#graph_info').replaceWith('
+= j render partial: 'graphs/graph_info'
+| ');
+| $('#adjacencyTable').replaceWith('
+= j render partial: 'graphs/adjacency_table'
 | ');

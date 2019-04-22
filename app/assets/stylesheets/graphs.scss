@@ -12,3 +12,15 @@
   justify-content: space-between;
   align-content: space-around;
 }
+
+div[data-react-class] {
+  height: 100%;
+}
+
+.working-area {
+  height: 100%;
+}
+
+.konvajs-content {
+  height: 100% !important;
+}

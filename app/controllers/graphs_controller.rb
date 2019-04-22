@@ -31,6 +31,7 @@ class GraphsController < ApplicationController
 
   def open
     @graph = Graph.find_by(name: params[:name])
+    calcul_qualities if @graph
     render 'create' if @graph
   end
 
@@ -59,7 +60,7 @@ class GraphsController < ApplicationController
   private
 
   def node_params
-    params[:name] if params[:name] =~ /\A((?!node \d).)*\z/
+    params[:name]
   end
 
   def calcul_qualities
@@ -67,7 +68,7 @@ class GraphsController < ApplicationController
     eccentricities = GraphService.find_eccentricities(@matrix)
     @radius = GraphService.get_radius(eccentricities)
     @diameter = GraphService.get_diameter(eccentricities)
-    @center = GraphService.get_diameter(eccentricities)
+    @center = GraphService.get_center(eccentricities, @graph.nodes)
     @full_graph = GraphService.full?(@matrix)
   end
 

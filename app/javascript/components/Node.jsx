@@ -69,7 +69,7 @@ class Node extends Component {
   render() {
     const radius = 12
     const strokeWidth = 4
-    const { power, name, x, y, color, selected, isDraggable} = this.state
+    const { id, power, name, x, y, color, selected, isDraggable} = this.state
     if (selected)
       var powerText =  <Text 
                           x = {-4}
@@ -98,7 +98,7 @@ class Node extends Component {
         <Text 
           fontSize = {15}
           fontFamily = 'Calibri'
-          text = {name}
+          text = {selected ? id : name}
           fill = 'black'
           padding = {12} />
       </Group>

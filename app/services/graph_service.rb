@@ -16,8 +16,9 @@ class GraphService
 
     def full?(matrix)
       matrix.each_index do |i|
-        matrix[i].delete_at(i)
-        return false if matrix[i].include?(0)
+        matrix[i].each_index do |j|
+          return false if matrix[i][j].zero? && i != j
+        end
       end
       true
     end
