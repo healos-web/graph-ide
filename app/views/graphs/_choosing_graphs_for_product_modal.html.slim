@@ -1,14 +1,20 @@
-.modal.fade aria-hidden="true" id="choosingGraphs" aria-labelledby="choosingGraphs" role="dialog" tabindex="-1" 
-  .modal-dialog.modal-dialog-centered role="document" 
+.modal.fade aria-hidden="true" id="choosingGraphs" aria-labelledby="DialogProduct" role="dialog" tabindex="-1" 
+  .modal-dialog.modal-lg role="document" 
     .modal-content
       .modal-header
         h5#exampleModalCenterTitle.modal-title Choose graphs for product
         button.close aria-label="Close" data-dismiss="modal" type="button" 
           span aria-hidden="true"  &times;
       .modal-body
-        = form_with url: send(self, "calcul_#{@type}_product_graphs_path"), class: 'form-inline', method: :post do |f|
-          = f.select :first_graph_id, options_for_select(@graphs, @graph), { require: true }, { class: "form-control" }
-          = f.select :second_graph_id, options_for_select(@graphs), { require: true }, { class: "form-control" }
-          = f.submit
+         = form_with url: @path, class: 'form-inline', method: :post do |f|
+          .form-group.w-100
+            = f.select :first_graph_id, options_for_select(@graphs, [@graph.name, @graph.id]), { require: true }, { class: "form-control ml-4 mr-4 w-25" }
+            = f.select :second_graph_id, options_for_select(@graphs), { require: true }, { class: "form-control ml-4 w-25" }
+            = f.submit 'Calcul', class: 'btn btn-primary ml-auto', id: 'ChooseGraphSubmit'
+      javascript:
+        $('#ChooseGraphSubmit').click(function() {
+          $('#choosingGraphs').modal('hide')
+        })
+     
 
      

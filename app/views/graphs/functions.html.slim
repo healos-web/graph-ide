@@ -38,6 +38,11 @@ ul#graphFunctions.navbar-nav
       remote: :true
   javascript:
     $('#calculCartesianProduct').click(function() {
-      $.get('/graphs', { product: 'cartesian' });
+      var id = "#{@graph.id}";
+      $.get('/graphs', { product: 'cartesian', id: id });
+    });
+    $('#calculVectorProduct').click(function() {
+      var id = "#{@graph.id}";
+      $.get('/graphs', { product: 'vector', id: id });
     });
       

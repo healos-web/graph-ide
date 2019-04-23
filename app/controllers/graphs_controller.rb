@@ -3,8 +3,8 @@ class GraphsController < ApplicationController
   respond_to :js
 
   def index
-    @graphs = Graph.all
-    @type = params[:product]
+    @graphs = Graph.all.map { |graph| [graph.name, graph.id] }
+    @path = "/graphs/calcul_#{params[:product]}_product"
   end
 
   def create
@@ -79,7 +79,18 @@ class GraphsController < ApplicationController
     @graph1 = Graph.find_by(id: params[:first_graph_id])
     @graph2 = Graph.find_by(id: params[:second_graph_id])
     cartesian_matrix = GraphService.cartesian_product_matrix(@graph1, @graph2)
+    binding.pry
     @graph = create_graph_by_matrix(cartesian_matrix)
+    calcul_qualities
+    render 'create'
+  end
+
+  def calcul_vector_product
+    @graph1 = Graph.find_by(id: params[:first_graph_id])
+    @graph2 = Graph.find_by(id: params[:second_graph_id])
+    vector_matrix = GraphService.vector_product_matrix(@graph1, @graph2)
+    binding.pry
+    @graph = create_graph_by_matrix(vector_matrix)
     calcul_qualities
     render 'create'
   end
@@ -111,14 +122,14 @@ class GraphsController < ApplicationController
     graph.name = new_graph_name(graph.id)
     graph.save(validate: false)
     matrix.length.times do |t|
-      graph.nodes.create(x: start_x, y: start_y, name: "node #{t+1}")
-      start_x < 600 ? start_x += 10 : start_x -= 10
-      start_y < 600 ? start_y += 10 : start_y -= 10
+      graph.nodes.create(x: start_x, y: start_y, name: "node #{t + 1}")
+      start_x < 800 ? start_x += 100 : start_x -= 100
+      start_y < 600 ? start_y += 50 : start_y -= 50
     end
     nodes = graph.nodes
     matrix.length.times do |i|
       matrix.length.times do |j|
-        if matrix[i][j] == 1 
+        if matrix[i][j] == 1
           if arc = graph.arcs.find_by(start_node: nodes[j], finish_node: nodes[i])
             arc.update(arc_type: 'common')
           else

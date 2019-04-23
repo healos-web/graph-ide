@@ -93,13 +93,37 @@ class GraphService
       nodes.each do |start_node|
         string = []
         nodes.each do |finish_node|
-          string.push(((start_node.first == finish_node.first &&
-                        matrix2[start_node.last][finish_node].last == 1) || 
-                          (matrix1[start_node.first][finish_node.first] == 1 &&
-                            start_node.last == finish_node.last)).to_i)
+          if (start_node.first == finish_node.first &&
+             matrix2[start_node.last][finish_node.last] == 1) ||
+             (matrix1[start_node.first][finish_node.first] == 1 &&
+               start_node.last == finish_node.last)
+            string.push(1)
+          else
+            string.push(0)
+          end
         end
         cartesian_matrix.push(string)
       end
+      cartesian_matrix
+    end
+
+    def vector_product_matrix(graph1, graph2)
+      matrix1 = get_adjacency_matrix(graph1.nodes, graph2.arcs)
+      matrix2 = get_adjacency_matrix(graph2.nodes, graph2.arcs)
+      nodes = get_product_nodes(matrix1, matrix2)
+      vector_matrix = []
+      nodes.each do |start_node|
+        string = []
+        nodes.each do |finish_node|
+          if matrix2[start_node.last][finish_node.last] == 1 && matrix1[start_node.first][finish_node.first] == 1
+            string.push(1)
+          else
+            string.push(0)
+          end
+        end
+        vector_matrix.push(string)
+      end
+      vector_matrix
     end
 
     private
