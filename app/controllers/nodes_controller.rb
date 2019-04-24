@@ -3,7 +3,11 @@ class NodesController < ApplicationController
   DEFAULT_POINT_Y = 100
   def create
     find_graph
-    node = @graph.nodes.create(x: DEFAULT_POINT_X, y: DEFAULT_POINT_Y)
+    if params_node
+      node = @graph.nodes.create(params_node)
+    else
+      node = @graph.nodes.create(x: DEFAULT_POINT_X, y: DEFAULT_POINT_Y)
+    end
     node.update(name: new_node_name(node.id))
     render 'graphs/show_ajax'
   end

@@ -79,7 +79,6 @@ class GraphsController < ApplicationController
     @graph1 = Graph.find_by(id: params[:first_graph_id])
     @graph2 = Graph.find_by(id: params[:second_graph_id])
     cartesian_matrix = GraphService.cartesian_product_matrix(@graph1, @graph2)
-    binding.pry
     @graph = create_graph_by_matrix(cartesian_matrix)
     calcul_qualities
     render 'create'
@@ -89,7 +88,6 @@ class GraphsController < ApplicationController
     @graph1 = Graph.find_by(id: params[:first_graph_id])
     @graph2 = Graph.find_by(id: params[:second_graph_id])
     vector_matrix = GraphService.vector_product_matrix(@graph1, @graph2)
-    binding.pry
     @graph = create_graph_by_matrix(vector_matrix)
     calcul_qualities
     render 'create'

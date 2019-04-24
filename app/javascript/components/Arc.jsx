@@ -22,11 +22,16 @@ class Arc extends Component {
     this.select = this.select.bind(this)
     this.changeStartCoordinates = this.changeStartCoordinates.bind(this)
     this.changeFinishCoordinates = this.changeFinishCoordinates.bind(this)
-    this.checkBounds = this.checkBounds.bind(this) 
+    this.checkBounds = this.checkBounds.bind(this)
+    this.selectTrue = this.selectTrue.bind(this)
   }
 
   select() {
     this.setState({selected: !this.state.selected});
+  }
+
+  selectTrue() {
+    this.setState({selected: true})
   }
 
   checkBounds(pos) {
@@ -54,6 +59,10 @@ class Arc extends Component {
     evt.cancelBubble = true
   };
 
+  onMouseDown(evt) {
+    evt.cancelBubble = true
+  }
+
   calculDistance(start, finish) {
     return Math.sqrt(Math.pow((finish.x - start.x), 2) + Math.pow((finish.y - start.y), 2))
   }
@@ -64,10 +73,6 @@ class Arc extends Component {
       y: (radius * y) / dist
     }
   }
-
-  // generatePointsForKink(nodePoint){
-  //   return 
-  // }
 
   render() {
     const strokeWidth = 6
@@ -87,7 +92,7 @@ class Arc extends Component {
                             stroke={selected ? 'green' : color}
                             strokeWidth={strokeWidth}
                           />
-      return <Group onClick={this.handleClickArc}>
+      return <Group onMouseDown={this.onMouseDown} onClick={this.handleClickArc}>
               <Line
                 points = {[startX + radius, startY, startX + 30, startY, startX + 30, startY - 30, startX, startY - 45, startX - 30, startY - 30, startX - 30, startY, startX - radius, startY]}//{this.generatePointsForKink({x: startX, y: startY})}
                 stroke = {color}
@@ -118,7 +123,7 @@ class Arc extends Component {
                             strokeWidth={strokeWidth}
                           />
       return (
-        <Group onClick={this.handleClickArc}>
+        <Group onMouseDown={this.onMouseDown} onClick={this.handleClickArc}>
           <Arrow
             points={[indent.x + startX, indent.y + startY, -indent.x + finishX, -indent.y + finishY]}
             pointerLength={5}

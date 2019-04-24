@@ -22,10 +22,15 @@ class Node extends Component {
     this.onDragEnd = this.onDragEnd.bind(this)
     this.dragBoundFunc = this.dragBoundFunc.bind(this)
     this.handleClickNode = this.handleClickNode.bind(this)
+    this.selectTrue = this.selectTrue.bind(this)
   }
 
   select() {
     this.setState({selected: !this.state.selected});
+  }
+
+  selectTrue() {
+    this.setState({selected: true})
   }
 
   handleClickNode(evt) {
@@ -37,6 +42,10 @@ class Node extends Component {
     this.setState({
       isDraggable: true
     })
+  }
+  
+  onMouseDown(evt) {
+    evt.cancelBubble = true
   }
 
   onDragEnd = e => {
@@ -86,7 +95,7 @@ class Node extends Component {
         draggable
         onDragStart={this.onDragStart}
         onDragEnd={this.onDragEnd}
-        //onDragMove={this.onDragMove}
+        onMouseDown={this.onMouseDown}
         dragBoundFunc={this.dragBoundFunc}
         onClick={this.handleClickNode}>
         <Circle
