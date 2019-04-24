@@ -9,6 +9,7 @@ class CanvasArea extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      graph_id: props.graph_id,
       nodes: props.nodes,
       arcs: props.arcs,
       selected: {nodes: [], arcs: []},
@@ -28,6 +29,11 @@ class CanvasArea extends Component {
     this.handleOnMouseUp = this.handleOnMouseUp.bind(this)
     this.handleOnMouseMove = this.handleOnMouseMove.bind(this)
     this.selectUnderRect = this.selectUnderRect.bind(this)
+    this.handleKeyDown = this.handleKeyDown.bind(this)
+    this.copyToClipboard = this.copyToClipboard.bind(this)
+    this.insertClipboardData = this.insertClipboardData.bind(this)
+
+    document.getElementById('working_area').addEventListener("keydown", this.handleKeyDown, false)
   }
 
   handleClick = (event) => {
@@ -52,7 +58,7 @@ class CanvasArea extends Component {
     const y = event.evt.layerY
     $.ajax({
       type: 'POST',
-      url: 'graphs/' + this.props.graph_id + '/nodes',
+      url: 'graphs/' + this.state.graph_id + '/nodes',
       data: { node: { x: x, y: y },
               authenticity_token: Functions.getMetaContent("csrf-token")
             }
@@ -122,11 +128,43 @@ class CanvasArea extends Component {
     let arcs = JSON.stringify(this.state.selected.arcs)
     $.ajax({
       type: 'POST',
-      url: 'graphs/' + this.props.graph_id + '/selected_elements',
+      url: 'graphs/' + this.state.graph_id + '/selected_elements',
       data: { nodes: nodes,
               arcs: arcs,
               authenticity_token: Functions.getMetaContent("csrf-token")
             }
+    })
+  }
+
+  handleKeyDown(event) {
+    event.preventDefault()
+    let charCode = String.fromCharCode(event.which).toLowerCase();
+    if (event.ctrlKey && charCode === 'c') {
+      console.log("Ctrl + C pressed");
+      this.copyToClipboard()
+    } else if(event.ctrlKey && charCode === 'v') {
+      console.log("Ctrl + V pressed");
+      this.insertClipboardData()
+    }
+  }
+
+  copyToClipboard() {
+    const selected = this.state.selected
+    if (selected.nodes.length > 0)
+      $.ajax({
+        type: 'POST',
+        url: 'graphs/' + this.state.graph_id + '/copy_to_clipboard',
+        data: { selected: selected,
+                authenticity_token: Functions.getMetaContent("csrf-token")
+              }
+      })
+  }
+
+  insertClipboardData() {
+    $.ajax({
+      type: 'POST',
+      url: 'graphs/' + this.state.graph_id + '/clipboard_data',
+      data: { authenticity_token: Functions.getMetaContent("csrf-token") }
     })
   }
 

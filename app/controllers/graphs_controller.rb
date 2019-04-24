@@ -45,6 +45,32 @@ class GraphsController < ApplicationController
     render 'destroy'
   end
 
+  def copy_to_clipboard
+    session[:clipboard] = params[:selected]
+    head :no_content
+  end
+
+  def clipboard_data
+    if session[:clipboard]
+      session[:clipboard]['nodes'].each do |num_hash|
+        node = num_hash.last
+        @graph.nodes.create(name: node['id'], x: node['x'].to_i, y: node['y'].to_i, color: node['color'])
+      end
+      session[:clipboard]['arcs']&.each do |num_hash|
+        arc = num_hash.last
+        if (start_node = @graph.nodes.find_by(name: arc['start_id'])) && (finish_node = @graph.nodes.find_by(name: arc['finish_id']))
+          @graph.arcs.create(start_node: start_node, finish_node: finish_node, color: arc['color'], arc_type: arc['arc_type'])
+        end
+      end
+      session[:clipboard]['nodes'].each do |num_hash|
+        node = num_hash.last
+        @graph.nodes.find_by(name: node['id']).update(name: node['name'])
+      end
+      calcul_qualities
+    end
+    render 'show'
+  end
+
   def to_full
     arcs = @graph.arcs
     nodes = @graph.nodes

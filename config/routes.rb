@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       get :close
     end
     member do
+      post :clipboard_data
+      post :copy_to_clipboard
       post :find_hamiltonyan_cycles
       post :to_full
       post :update_elements
