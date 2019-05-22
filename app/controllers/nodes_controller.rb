@@ -3,7 +3,7 @@ class NodesController < ApplicationController
   DEFAULT_POINT_Y = 100
   def create
     find_graph
-    if params_node
+    if params[:node]
       node = @graph.nodes.create(params_node)
     else
       node = @graph.nodes.create(x: DEFAULT_POINT_X, y: DEFAULT_POINT_Y)
