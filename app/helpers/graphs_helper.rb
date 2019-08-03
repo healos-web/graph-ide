@@ -32,6 +32,6 @@ module GraphsHelper
   end
 
   def check_elements?
-    @nodes && @arcs ? true : false
+    @nodes && @arcs
   end
 end
