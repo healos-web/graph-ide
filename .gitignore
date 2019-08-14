@@ -9,6 +9,7 @@
 /config/cable.yml
 /config/storage.yml
 /config/webpacker.yml
+/config/credentials.yml.enc
 
 # Ignore bundler config.
 /.bundle
