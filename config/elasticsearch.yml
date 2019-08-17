@@ -1,0 +1,14 @@
+development: &default
+  host: localhost
+  transport_options:
+    request:
+      timeout: !!integer 300
+test:
+  <<: *default
+staging:
+  <<: *default
+production:
+  host: localhost
+  transport_options:
+    request:
+      timeout: !!integer 300
