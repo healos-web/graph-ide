@@ -49,6 +49,7 @@ gem 'webpacker', '~> 4.x'
 gem 'responders', '~> 2.0'
 gem 'searchkick'
 gem 'enumerize'
+gem 'figaro'
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
@@ -60,6 +61,12 @@ group :development do
   gem 'pry'  
   gem "better_errors"
   gem "binding_of_caller"
+  gem 'capistrano'
+  gem 'capistrano-bundler'
+  gem 'capistrano-puma', '>= 0.1.1'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+  gem 'capistrano-figaro-yml', '~> 1.0.2'
 end
 
 group :test do

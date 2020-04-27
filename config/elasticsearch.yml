@@ -8,7 +8,7 @@ test:
 staging:
   <<: *default
 production:
-  host: https://9fqe5wzca2:vq3pz8yng7@fir-927051852.us-east-1.bonsaisearch.net:443
+  host: <%= ENV['BONSAI_URL'] %>
   transport_options:
     request:
       timeout: !!integer 300
